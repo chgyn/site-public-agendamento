@@ -39,10 +39,17 @@ jobs:
       - name: Instalar dependências
         run: npm ci
 
+      - name: Validar parâmetros do GitHub Pages
+        run: |
+          echo "Pages Base Path: '${{ steps.pages.outputs.base_path }}'"
+          echo "Pages URL: '${{ steps.pages.outputs.page_url }}'"
+          echo "Pages Host: '${{ steps.pages.outputs.host }}'"
+
       - name: Executar build de produção
         env:
-          # Define o caminho base de publicação (subdiretório do repositório ou domínio customizado)
-          BASE_PATH: ${{ steps.pages.outputs.base_path || vars.BASE_PATH || '/site-public-agendamento/' }}
+          # Para domínio personalizado, base_path é vazio ('') e o Vite gera assets na raiz ('/')
+          # Para github.io padrão sem domínio, base_path é '/site-public-agendamento'
+          BASE_PATH: ${{ vars.BASE_PATH != '' && vars.BASE_PATH || steps.pages.outputs.base_path }}
         run: npm run build
 
       - name: Criar fallback 404 para compatibilidade SPA no GitHub Pages

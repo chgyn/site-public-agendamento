@@ -4,14 +4,21 @@ import { defineConfig } from 'vite'
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [vue()],
-  // Em deploys do GitHub Pages sob chgyn/site-public-agendamento, a base padrão é /site-public-agendamento/
-  // Pode ser sobrescrita via variável de ambiente BASE_PATH (ex: '/' para domínio próprio agendefacil.com.br)
+  // Configuração do caminho base de publicação:
+  // - Com domínio próprio (ex: agendefacil.charlesegidio.space): a raiz é '/'
+  // - No GitHub Pages padrão (ex: chgyn.github.io/site-public-agendamento/): '/site-public-agendamento/'
+  // Se BASE_PATH for fornecido pelo workflow (mesmo vazio ""), respeitamos:
+  // '' ou '/' -> '/'
+  // '/site-public-agendamento' -> '/site-public-agendamento/'
   base: (() => {
     const rawBase = process.env.BASE_PATH
-    if (rawBase !== undefined && rawBase !== '') {
+    if (rawBase !== undefined) {
+      if (rawBase === '' || rawBase === '/' || rawBase === '.') {
+        return '/'
+      }
       return rawBase.endsWith('/') ? rawBase : `${rawBase}/`
     }
-    return process.env.GITHUB_ACTIONS ? '/site-public-agendamento/' : '/'
+    return '/'
   })(),
 })
 

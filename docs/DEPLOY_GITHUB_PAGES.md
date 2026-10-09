@@ -84,30 +84,27 @@ export default defineConfig({
 
 ## 4. Domínio Personalizado (Custom Domain)
 
-Caso o projeto passe a utilizar um domínio próprio (por exemplo, `https://agendefacil.com.br` ou `https://www.agendefacil.com.br`):
+O projeto está configurado para o domínio personalizado:
+👉 **`https://agendefacil.charlesegidio.space/`**
 
-### 4.1. Configuração do DNS no Provedor (ex: Registro.br, Cloudflare, Route53)
-Para apontar um domínio raiz (Apex) para o GitHub Pages:
-- Crie registros do tipo **A** apontando para os IPs oficiais do GitHub Pages:
-  - `185.199.108.153`
-  - `185.199.109.153`
-  - `185.199.110.153`
-  - `185.199.111.153`
-- Para subdomínios (ex: `www.agendefacil.com.br`):
+### 4.1. Arquivo CNAME
+O repositório possui o arquivo `public/CNAME` contendo `agendefacil.charlesegidio.space`. Durante o build do Vite, ele é copiado para `dist/CNAME` e publicado automaticamente no GitHub Pages, garantindo que o domínio permaneça vinculado a cada deploy.
+
+### 4.2. Apontamento de DNS
+- Para subdomínios (ex: `agendefacil.charlesegidio.space`):
   - Crie um registro **CNAME** apontando para: `chgyn.github.io.`
+- Para domínio raiz (Apex):
+  - Crie registros do tipo **A** apontando para os IPs do GitHub Pages (`185.199.108.153`, etc.).
 
-### 4.2. Configuração no GitHub
+### 4.3. Configuração no GitHub
 1. Vá em **Settings** > **Pages** > **Custom domain**.
-2. Digite o domínio (ex: `agendefacil.com.br`) e clique em **Save**.
-3. Marque a opção **Enforce HTTPS** (o certificado SSL é emitido automaticamente).
+2. Digite o domínio `agendefacil.charlesegidio.space` e clique em **Save**.
+3. Marque a opção **Enforce HTTPS**.
 
-### 4.3. Ajuste do Caminho Base no Pipeline
-Com um domínio personalizado, o site passará a ser servido da raiz (`/`) em vez do subdiretório `/site-public-agendamento/`.
-Para ajustar isso:
-- O workflow já lê automaticamente `steps.pages.outputs.base_path` fornecido pela ação `actions/configure-pages@v5`.
-- Se preferir fixar manualmente, vá em **Settings** > **Secrets and variables** > **Actions** > **Variables** e crie a variável:
-  - **Nome:** `BASE_PATH`
-  - **Valor:** `/`
+### 4.4. Caminho Base na Publicação
+Com um domínio personalizado, o site é servido a partir da raiz (`/`) em vez do subdiretório `/site-public-agendamento/`.
+- O workflow do GitHub Actions captura automaticamente o `base_path` via `actions/configure-pages@v5` (que retorna `""` para domínios próprios).
+- O `vite.config.ts` trata caminhos vazios gerando todos os assets sob `/assets/...`, evitando erros 404 e tela em branco.
 
 ---
 

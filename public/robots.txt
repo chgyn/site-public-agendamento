@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://agendefacil.com.br/sitemap.xml
+Sitemap: https://agendefacil.charlesegidio.space/sitemap.xml
