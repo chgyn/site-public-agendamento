@@ -52,43 +52,43 @@ const closeMobileMenu = () => {
         : 'bg-[#043873] border-b border-white/10 py-5'
     ]"
   >
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex items-center justify-between">
+    <div class="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between gap-4">
         <!-- Logo e Identidade -->
-        <a href="#inicio" class="flex items-center gap-3 group focus:outline-none focus:ring-2 focus:ring-[#4F9CF9] rounded-lg p-1">
-          <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-[#4F9CF9] to-[#2563EB] flex items-center justify-center shadow-md shadow-[#4F9CF9]/30 group-hover:scale-105 transition-transform duration-200">
+        <a href="#inicio" class="flex items-center gap-3 shrink-0 group focus:outline-none focus:ring-2 focus:ring-[#4F9CF9] rounded-lg p-1">
+          <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-[#4F9CF9] to-[#2563EB] flex items-center justify-center shadow-md shadow-[#4F9CF9]/30 group-hover:scale-105 transition-transform duration-200 shrink-0">
             <Calendar class="w-5 h-5 text-white" />
           </div>
-          <div class="flex flex-col">
+          <div class="flex flex-col shrink-0">
             <div class="flex items-center gap-2">
-              <span class="text-xl font-extrabold tracking-tight text-white font-display">AgendeFácil</span>
-              <span class="hidden sm:inline-flex items-center px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider rounded-full bg-[#FFE492]/20 text-[#FFE492] border border-[#FFE492]/30">
+              <span class="text-xl font-extrabold tracking-tight text-white font-display whitespace-nowrap">AgendeFácil</span>
+              <span class="hidden sm:inline-flex items-center px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider rounded-full bg-[#FFE492]/20 text-[#FFE492] border border-[#FFE492]/30 whitespace-nowrap shrink-0">
                 MIT Open-Source
               </span>
             </div>
-            <span class="text-[11px] text-blue-200/80 -mt-0.5 hidden sm:block">Agendamento Inteligente & Self-Hosted</span>
+            <span class="text-[11px] text-blue-200/80 -mt-0.5 hidden md:block whitespace-nowrap">Agendamento Inteligente & Self-Hosted</span>
           </div>
         </a>
 
         <!-- Desktop Navigation Links -->
-        <nav class="hidden xl:flex items-center gap-1 2xl:gap-2">
+        <nav class="hidden xl:flex items-center gap-0.5 2xl:gap-1.5 shrink-0">
           <a
             v-for="link in navLinks"
             :key="link.name"
             :href="link.href"
-            class="px-2.5 py-1.5 text-xs font-medium text-blue-100 hover:text-white hover:bg-white/10 rounded-lg transition-colors duration-150"
+            class="px-1.5 2xl:px-2.5 py-1.5 text-[11px] 2xl:text-xs font-medium text-blue-100 hover:text-white hover:bg-white/10 rounded-lg transition-colors duration-150 whitespace-nowrap shrink-0"
           >
             {{ link.name }}
           </a>
         </nav>
 
         <!-- Action Buttons (Desktop) -->
-        <div class="hidden md:flex items-center gap-3">
+        <div class="hidden lg:flex items-center gap-2.5 shrink-0">
           <a
             href="https://github.com/chgyn/sistema-agendamento"
             target="_blank"
             rel="noopener noreferrer"
-            class="inline-flex items-center gap-2 px-3.5 py-2 text-xs font-semibold text-white bg-white/10 hover:bg-white/20 border border-white/20 rounded-xl transition-all duration-200 backdrop-blur-sm"
+            class="inline-flex items-center gap-2 px-3 py-2 text-xs font-semibold text-white bg-white/10 hover:bg-white/20 border border-white/20 rounded-xl transition-all duration-200 backdrop-blur-sm whitespace-nowrap shrink-0"
           >
             <Github class="w-4 h-4" />
             <span>GitHub</span>
@@ -96,7 +96,7 @@ const closeMobileMenu = () => {
 
           <a
             href="#instalacao"
-            class="inline-flex items-center gap-2 px-4 py-2 text-xs font-bold text-[#043873] bg-[#FFE492] hover:bg-[#FFDE73] rounded-xl shadow-md hover:shadow-glow-gold transition-all duration-200"
+            class="inline-flex items-center gap-2 px-3.5 py-2 text-xs font-bold text-[#043873] bg-[#FFE492] hover:bg-[#FFDE73] rounded-xl shadow-md hover:shadow-glow-gold transition-all duration-200 whitespace-nowrap shrink-0"
           >
             <Terminal class="w-3.5 h-3.5" />
             <span>Como Instalar</span>
