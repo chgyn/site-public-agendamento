@@ -74,6 +74,18 @@ Os arquivos para publicação serão gerados no diretório `dist/`.
 
 ---
 
+## 🌐 Deploy Automático no GitHub Pages
+
+O projeto conta com uma pipeline de CI/CD completa e automatizada com **GitHub Actions** e **GitHub Pages**:
+
+- **Workflow:** [`.github/workflows/deploy.yml`](.github/workflows/deploy.yml)
+- **Gatilho:** A cada push na branch `main` ou disparo manual via *Actions*.
+- **Processo:** Validação de tipagem TypeScript (`vue-tsc`), compilação Vite com resolução automática de caminhos de subdiretório e deploy nos servidores seguros do GitHub Pages.
+- **Bloqueio de Erros:** O deploy é executado somente se o build for 100% bem-sucedido.
+- **Guia Detalhado:** Consulte o [Guia de Deploy no GitHub Pages](docs/DEPLOY_GITHUB_PAGES.md) para instruções de ativação, suporte a domínio personalizado (DNS) e detalhes técnicos.
+
+---
+
 ## 📄 Licença
 
 Distribuído sob os termos da **[Licença MIT](https://github.com/chgyn/sistema-agendamento/blob/main/LICENSE)**.

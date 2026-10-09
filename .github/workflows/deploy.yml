@@ -1,0 +1,67 @@
+name: Deploy Landing Page to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+# Permissões necessárias para autenticação e publicação segura no GitHub Pages
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Permite apenas um deploy concorrente por vez, garantindo consistência
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  # Job de Verificação de Tipos e Build de Produção
+  build:
+    name: Build & Validação
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout do repositório
+        uses: actions/checkout@v4
+
+      - name: Configurar ambiente Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Configurar GitHub Pages
+        id: pages
+        uses: actions/configure-pages@v5
+
+      - name: Instalar dependências
+        run: npm ci
+
+      - name: Executar build de produção
+        env:
+          # Define o caminho base de publicação (subdiretório do repositório ou domínio customizado)
+          BASE_PATH: ${{ steps.pages.outputs.base_path || vars.BASE_PATH || '/site-public-agendamento/' }}
+        run: npm run build
+
+      - name: Criar fallback 404 para compatibilidade SPA no GitHub Pages
+        run: cp dist/index.html dist/404.html
+
+      - name: Fazer upload dos artefatos estáticos
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./dist
+
+  # Job de Publicação Oficial no GitHub Pages
+  deploy:
+    name: Publicar no GitHub Pages
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Realizar Deploy no GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

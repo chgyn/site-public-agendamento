@@ -14,41 +14,42 @@ import {
 } from 'lucide-vue-next'
 
 const activeTab = ref(0)
+const baseUrl = import.meta.env.BASE_URL
 
 const tabs = [
   {
     id: 'dashboard',
     label: 'Dashboard Admin',
     desc: 'Visão executiva com métricas de faturamento, ocupação da agenda e gráficos.',
-    image: '/images/dashboard-dark.png',
+    image: `${baseUrl}images/dashboard-dark.png`,
     badge: 'Painel do Gestor'
   },
   {
     id: 'booking-flow',
     label: 'Agendamento Público',
     desc: 'Página pública moderna por slug para os clientes agendarem serviços 24/7.',
-    image: '/images/booking-dom-navalha.png',
+    image: `${baseUrl}images/booking-dom-navalha.png`,
     badge: 'Experiência do Cliente'
   },
   {
     id: 'booking-slots',
     label: 'Seleção de Horários',
     desc: 'Cálculo dinâmico de disponibilidade e bloqueio contra dupla reserva.',
-    image: '/images/booking-horarios.png',
+    image: `${baseUrl}images/booking-horarios.png`,
     badge: 'Horários em Tempo Real'
   },
   {
     id: 'planos',
     label: 'Planos & Monetização',
     desc: 'Gestão completa de planos comerciais com recorrência Asaas e Gatekeeper.',
-    image: '/images/planos-gestao.png',
+    image: `${baseUrl}images/planos-gestao.png`,
     badge: 'Monetização SaaS'
   },
   {
     id: 'tenants',
     label: 'Gestão Multi-Tenant',
     desc: 'Administração centralizada de múltiplos estabelecimentos na mesma instância.',
-    image: '/images/estabelecimentos-tenants.png',
+    image: `${baseUrl}images/estabelecimentos-tenants.png`,
     badge: 'Arquitetura Multi-Tenant'
   }
 ]
