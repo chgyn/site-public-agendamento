@@ -1,0 +1,79 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-[#F5F7FA] text-[#212529] font-sans antialiased min-h-screen;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Outfit', sans-serif;
+    letter-spacing: -0.02em;
+  }
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #F1F5F9;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #CBD5E1;
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #4F9CF9;
+}
+
+/* Whitepace SaaS Design Utilities */
+.whitepace-card {
+  @apply bg-white border border-[#E2E8F0] rounded-2xl shadow-saas-card transition-all duration-300;
+}
+
+.whitepace-card-hover {
+  @apply hover:shadow-saas-hover hover:-translate-y-1 hover:border-[#4F9CF9]/40;
+}
+
+.whitepace-badge-primary {
+  @apply inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-[#4F9CF9]/15 text-[#043873] border border-[#4F9CF9]/30;
+}
+
+.whitepace-badge-gold {
+  @apply inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-[#FFE492]/30 text-[#854D0E] border border-[#FFE492]/60;
+}
+
+.whitepace-badge-dark {
+  @apply inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-semibold bg-white/10 text-white backdrop-blur-md border border-white/20;
+}
+
+.whitepace-btn-primary {
+  @apply inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl font-semibold text-white bg-[#4F9CF9] hover:bg-[#3584E4] transition-all duration-200 shadow-md hover:shadow-glow-blue active:scale-[0.98];
+}
+
+.whitepace-btn-gold {
+  @apply inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl font-bold text-[#043873] bg-[#FFE492] hover:bg-[#FFDE73] transition-all duration-200 shadow-md hover:shadow-glow-gold active:scale-[0.98];
+}
+
+.whitepace-btn-secondary {
+  @apply inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl font-semibold text-[#043873] bg-white border border-[#E2E8F0] hover:bg-[#F8FAFC] hover:border-[#4F9CF9]/50 transition-all duration-200 shadow-sm active:scale-[0.98];
+}
+
+.whitepace-btn-ghost-white {
+  @apply inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl font-semibold text-white bg-white/10 hover:bg-white/20 border border-white/20 backdrop-blur-md transition-all duration-200 active:scale-[0.98];
+}
+
+/* Terminal & Code Block styling */
+.terminal-window {
+  @apply bg-[#0D1525] text-slate-200 rounded-2xl border border-slate-700/60 shadow-2xl overflow-hidden font-mono text-sm;
+}
