@@ -1,41 +1,59 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import {
-  Send,
+  Briefcase,
   CheckCircle2,
   Github,
-  Briefcase,
-  ExternalLink
+  Mail,
+  Linkedin,
+  Globe,
+  ExternalLink,
+  Copy,
+  Check,
+  Sparkles
 } from 'lucide-vue-next'
 
-const formSubmitted = ref(false)
-const formData = ref({
-  name: '',
-  email: '',
-  subject: 'instalacao',
-  message: ''
-})
+const emailCopied = ref(false)
 
-const submitForm = () => {
-  if (!formData.value.name || !formData.value.email || !formData.value.message) {
-    return
-  }
-  formSubmitted.value = true
-}
+const copyEmail = async () => {
+  const email = 'charlesegidio@gmail.com'
+  let success = false
 
-const resetForm = () => {
-  formData.value = {
-    name: '',
-    email: '',
-    subject: 'instalacao',
-    message: ''
+  try {
+    if (navigator?.clipboard?.writeText) {
+      await navigator.clipboard.writeText(email)
+      success = true
+    } else {
+      throw new Error('Clipboard API not available')
+    }
+  } catch {
+    try {
+      const textArea = document.createElement('textarea')
+      textArea.value = email
+      textArea.style.position = 'fixed'
+      textArea.style.left = '-9999px'
+      textArea.style.top = '-9999px'
+      document.body.appendChild(textArea)
+      textArea.focus()
+      textArea.select()
+      success = document.execCommand('copy')
+      document.body.removeChild(textArea)
+    } catch (err) {
+      console.error('Falha ao copiar:', err)
+    }
   }
-  formSubmitted.value = false
+
+  if (success) {
+    emailCopied.value = true
+    setTimeout(() => {
+      emailCopied.value = false
+    }, 2500)
+  }
 }
 </script>
 
 <template>
-  <section id="contato" class="py-20 lg:py-28 bg-[#F5F7FA]">
+  <section id="contato" class="py-20 lg:py-28 bg-[#F5F7FA] scroll-mt-20">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <!-- Section Header -->
       <div class="text-center max-w-3xl mx-auto mb-16">
@@ -46,12 +64,12 @@ const resetForm = () => {
           Precisa de ajuda com o AgendeFácil?
         </h2>
         <p class="text-base sm:text-lg text-slate-600 leading-relaxed">
-          Se você precisa de auxílio para instalar, configurar ou personalizar o sistema, ou deseja colaborar com o projeto, entre em contato. Vamos conversar sobre como colocar a ferramenta em funcionamento e adaptá-la às suas necessidades.
+          Se você precisa de auxílio para instalar, configurar ou personalizar o sistema, ou deseja contratar consultoria especializada, entre em contato diretamente pelos canais abaixo.
         </p>
       </div>
 
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-10">
-        <!-- Contact Info / Scope Cards (Left Column) -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
+        <!-- Scope / Consulting Info (Left Column) -->
         <div class="lg:col-span-5 space-y-6">
           <div class="bg-white border border-[#E2E8F0] rounded-2xl p-6 sm:p-8 shadow-saas-card">
             <h3 class="text-xl font-bold text-[#043873] mb-4 font-display flex items-center gap-2">
@@ -107,102 +125,137 @@ const resetForm = () => {
           </div>
         </div>
 
-        <!-- Interactive Form (Right Column) -->
+        <!-- Direct Contact Info (Right Column) -->
         <div class="lg:col-span-7">
-          <div class="bg-white border border-[#E2E8F0] rounded-2xl p-6 sm:p-10 shadow-saas-card">
-            <!-- Success Message State -->
-            <div v-if="formSubmitted" class="py-12 text-center">
-              <div class="w-16 h-16 rounded-2xl bg-emerald-500/10 text-emerald-600 flex items-center justify-center mx-auto mb-4">
-                <CheckCircle2 class="w-8 h-8" />
+          <div class="bg-white border border-[#E2E8F0] rounded-2xl p-6 sm:p-8 shadow-saas-card">
+            <!-- Profile Header -->
+            <div class="flex items-center justify-between pb-6 mb-6 border-b border-slate-100 flex-wrap gap-4">
+              <div class="flex items-center gap-3.5">
+                <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-gradient-to-br from-[#043873] to-[#4F9CF9] text-white font-extrabold text-xl flex items-center justify-center shadow-md font-display shrink-0">
+                  CE
+                </div>
+                <div>
+                  <div class="flex items-center gap-2 flex-wrap">
+                    <h3 class="text-lg sm:text-xl font-bold text-[#043873] font-display">Charles Egidio</h3>
+                    <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
+                      <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                      Disponível
+                    </span>
+                  </div>
+                  <p class="text-xs sm:text-sm text-slate-500 mt-0.5">Criador & Desenvolvedor do AgendeFácil</p>
+                </div>
               </div>
-              <h3 class="text-2xl font-bold text-[#043873] mb-2 font-display">Mensagem Enviada com Sucesso!</h3>
-              <p class="text-sm text-slate-600 max-w-md mx-auto leading-relaxed mb-6">
-                Obrigado pelo contato! Retornaremos para o e-mail <strong>{{ formData.email }}</strong> com todas as orientações necessárias o mais breve possível.
-              </p>
-              <button
-                type="button"
-                @click="resetForm"
-                class="px-6 py-2.5 rounded-xl text-xs font-semibold bg-[#4F9CF9] text-white hover:bg-[#3584E4] transition-colors"
-              >
-                Enviar Outra Mensagem
-              </button>
+
+              <span class="inline-flex items-center gap-1 text-xs font-medium text-slate-500 bg-slate-50 px-3 py-1 rounded-lg border border-slate-200">
+                <Sparkles class="w-3.5 h-3.5 text-[#4F9CF9]" />
+                <span>Contato Direto</span>
+              </span>
             </div>
 
-            <!-- Form State -->
-            <form v-else @submit.prevent="submitForm" class="space-y-5">
-              <div>
-                <h3 class="text-xl font-bold text-[#043873] mb-1 font-display">Envie sua Mensagem</h3>
-                <p class="text-xs text-slate-500 mb-6">Preencha o formulário abaixo e entraremos em contato.</p>
-              </div>
+            <p class="text-xs sm:text-sm text-slate-600 leading-relaxed mb-6">
+              Fale diretamente comigo para consultoria personalizada, auxílio em implantação em servidores VPS, desenvolvimento de novos módulos ou suporte técnico:
+            </p>
 
-              <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                <div>
-                  <label for="contact-name" class="block text-xs font-semibold text-slate-700 mb-1.5">Seu Nome *</label>
-                  <input
-                    id="contact-name"
-                    v-model="formData.name"
-                    type="text"
-                    required
-                    placeholder="Ex: Carlos Silva"
-                    class="w-full px-4 py-3 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-[#4F9CF9] focus:border-transparent transition-all placeholder:text-slate-400"
-                  />
+            <!-- Contact Cards List -->
+            <div class="space-y-4">
+              <!-- Email Card -->
+              <div class="group relative bg-[#F8FAFC] hover:bg-white border border-slate-200 hover:border-[#4F9CF9] rounded-2xl p-5 transition-all duration-200 hover:shadow-md">
+                <div class="flex items-start gap-4">
+                  <div class="w-11 h-11 sm:w-12 sm:h-12 rounded-xl bg-blue-50 border border-blue-100 text-[#4F9CF9] flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform">
+                    <Mail class="w-5 h-5 sm:w-6 sm:h-6" />
+                  </div>
+                  <div class="flex-1 min-w-0">
+                    <span class="text-[11px] font-bold uppercase tracking-wider text-slate-400">E-mail Profissional</span>
+                    <div class="text-base sm:text-lg font-bold text-[#043873] mt-0.5 select-all">
+                      charlesegidio@gmail.com
+                    </div>
+                    <p class="text-xs text-slate-500 mt-1">Orçamentos, consultoria e projetos sob medida</p>
+
+                    <div class="mt-4 pt-3 border-t border-slate-100 flex flex-wrap items-center gap-2">
+                      <a
+                        href="mailto:charlesegidio@gmail.com?subject=Contato%20AgendeF%C3%A1cil"
+                        class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-semibold bg-[#4F9CF9] hover:bg-[#3584E4] text-white shadow-sm transition-colors"
+                      >
+                        <Mail class="w-3.5 h-3.5" />
+                        <span>Enviar E-mail</span>
+                      </a>
+                      <button
+                        type="button"
+                        @click="copyEmail"
+                        class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-medium text-slate-700 bg-white hover:bg-slate-50 border border-slate-200 transition-colors cursor-pointer"
+                        :title="emailCopied ? 'E-mail copiado!' : 'Copiar e-mail'"
+                      >
+                        <component :is="emailCopied ? Check : Copy" class="w-3.5 h-3.5" :class="emailCopied ? 'text-emerald-600' : 'text-slate-500'" />
+                        <span>{{ emailCopied ? 'E-mail Copiado!' : 'Copiar E-mail' }}</span>
+                      </button>
+                    </div>
+                  </div>
                 </div>
+              </div>
 
-                <div>
-                  <label for="contact-email" class="block text-xs font-semibold text-slate-700 mb-1.5">Seu E-mail *</label>
-                  <input
-                    id="contact-email"
-                    v-model="formData.email"
-                    type="email"
-                    required
-                    placeholder="carlos@exemplo.com.br"
-                    class="w-full px-4 py-3 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-[#4F9CF9] focus:border-transparent transition-all placeholder:text-slate-400"
-                  />
+              <!-- LinkedIn Card -->
+              <div class="group relative bg-[#F8FAFC] hover:bg-white border border-slate-200 hover:border-[#0A66C2] rounded-2xl p-5 transition-all duration-200 hover:shadow-md">
+                <div class="flex items-start gap-4">
+                  <div class="w-11 h-11 sm:w-12 sm:h-12 rounded-xl bg-[#0A66C2]/10 border border-[#0A66C2]/20 text-[#0A66C2] flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform">
+                    <Linkedin class="w-5 h-5 sm:w-6 sm:h-6" />
+                  </div>
+                  <div class="flex-1 min-w-0">
+                    <span class="text-[11px] font-bold uppercase tracking-wider text-slate-400">Rede Profissional</span>
+                    <div class="text-base sm:text-lg font-bold text-[#043873] mt-0.5">
+                      linkedin.com/in/charlesegidio
+                    </div>
+                    <p class="text-xs text-slate-500 mt-1">Conecte-se para networking, dúvidas e mensagens diretas</p>
+
+                    <div class="mt-4 pt-3 border-t border-slate-100 flex items-center">
+                      <a
+                        href="https://www.linkedin.com/in/charlesegidio/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-semibold bg-[#0A66C2] hover:bg-[#004182] text-white shadow-sm transition-colors"
+                      >
+                        <span>Acessar Perfil no LinkedIn</span>
+                        <ExternalLink class="w-3.5 h-3.5 opacity-80" />
+                      </a>
+                    </div>
+                  </div>
                 </div>
               </div>
 
-              <div>
-                <label for="contact-subject" class="block text-xs font-semibold text-slate-700 mb-1.5">Assunto de Interesse *</label>
-                <select
-                  id="contact-subject"
-                  v-model="formData.subject"
-                  class="w-full px-4 py-3 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-[#4F9CF9] focus:border-transparent transition-all bg-white"
-                >
-                  <option value="instalacao">Auxílio na Instalação e Configuração VPS</option>
-                  <option value="personalizacao">Personalização do Sistema e Identidade</option>
-                  <option value="funcionalidades">Desenvolvimento de Novas Funcionalidades</option>
-                  <option value="otimizacao">Otimização de Desempenho e Infraestrutura</option>
-                  <option value="colaboracao">Colaboração com o Projeto Open-Source</option>
-                  <option value="outro">Outro Assunto</option>
-                </select>
-              </div>
+              <!-- Personal Site Card -->
+              <div class="group relative bg-[#F8FAFC] hover:bg-white border border-slate-200 hover:border-[#043873] rounded-2xl p-5 transition-all duration-200 hover:shadow-md">
+                <div class="flex items-start gap-4">
+                  <div class="w-11 h-11 sm:w-12 sm:h-12 rounded-xl bg-purple-50 border border-purple-100 text-[#043873] flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform">
+                    <Globe class="w-5 h-5 sm:w-6 sm:h-6 text-[#4F9CF9]" />
+                  </div>
+                  <div class="flex-1 min-w-0">
+                    <span class="text-[11px] font-bold uppercase tracking-wider text-slate-400">Site Pessoal & Portfólio</span>
+                    <div class="text-base sm:text-lg font-bold text-[#043873] mt-0.5">
+                      charlesegidio.online
+                    </div>
+                    <p class="text-xs text-slate-500 mt-1">Conheça mais sobre outros projetos, artigos e trajetória profissional</p>
 
-              <div>
-                <label for="contact-message" class="block text-xs font-semibold text-slate-700 mb-1.5">Mensagem ou Detalhes do Projeto *</label>
-                <textarea
-                  id="contact-message"
-                  v-model="formData.message"
-                  required
-                  rows="4"
-                  placeholder="Conte-nos brevemente sobre o seu negócio, sua VPS ou como podemos ajudar..."
-                  class="w-full px-4 py-3 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-[#4F9CF9] focus:border-transparent transition-all placeholder:text-slate-400"
-                ></textarea>
+                    <div class="mt-4 pt-3 border-t border-slate-100 flex items-center">
+                      <a
+                        href="https://charlesegidio.online/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-semibold bg-[#043873] hover:bg-[#032b57] text-white shadow-sm transition-colors"
+                      >
+                        <span>Visitar Site Pessoal</span>
+                        <ExternalLink class="w-3.5 h-3.5 opacity-80" />
+                      </a>
+                    </div>
+                  </div>
+                </div>
               </div>
+            </div>
 
-              <div class="pt-2">
-                <button
-                  type="submit"
-                  class="w-full inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl text-sm font-bold text-white bg-[#4F9CF9] hover:bg-[#3584E4] shadow-md hover:shadow-glow-blue transition-all duration-200 active:scale-[0.99]"
-                >
-                  <Send class="w-4 h-4" />
-                  <span>Enviar Mensagem</span>
-                </button>
-              </div>
-
-              <p class="text-[11px] text-slate-400 text-center">
-                Seus dados são protegidos e utilizados exclusivamente para responder ao seu contato.
+            <!-- Bottom Disclaimer / Fast response -->
+            <div class="mt-6 pt-5 border-t border-slate-100 text-center sm:text-left">
+              <p class="text-[11px] text-slate-500">
+                💬 Atendimento direto com o desenvolvedor responsável pelo projeto. Resposta garantida com orientações técnicas claras e transparentes.
               </p>
-            </form>
+            </div>
           </div>
         </div>
       </div>
